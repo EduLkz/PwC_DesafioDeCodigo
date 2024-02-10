@@ -1,6 +1,17 @@
 numberPrefix = ["No", "no", "Nº", "nº", "n", "N"]
 numberIndexes = []
 
+def OrganizeAddress(address):
+    address_splited = address.split(' ')
+    number = ''
+
+    number = findNumber(address_splited).replace(',', '')
+    street = getAddress(address_splited).replace(',', '')
+    final_address = '{\"' + street + '\", \"' + number + '\"}'
+
+    print(final_address)
+
+
 def findNumber(address):
     for index, part in enumerate(address):
         for p in numberPrefix:
@@ -28,17 +39,16 @@ def findNumber(address):
                 number = ''
                 
                 number += part
-                numberIndexes.append(index)
+                numberIndexes.append(part)
                 
-                if(len(address) >= index + 1):
+                if(len(address) - 1 >= index + 1):
                     if(len(address[index + 1]) <= 1):
                         number += ' ' + address[index + 1]
-                        numberIndexes.append(index + 1)
+                        numberIndexes.append(address[index + 1])
 
                 return number
     
     return 'Sem Numero'
-
 
 def getAddress(address):
     finalAddress = ''
@@ -46,7 +56,8 @@ def getAddress(address):
     addressCopy = address.copy()
     if len(numberIndexes) > 0:
          for number in numberIndexes:
-            addressCopy.remove(number)
+            if number in addressCopy:
+                addressCopy.remove(number)
             
     
     finalAddress = ' '.join(addressCopy)
