@@ -4,11 +4,16 @@ numberIndexes = []
 def findNumber(address):
     for index, part in enumerate(address):
         for p in numberPrefix:
-            #print(part, p)
             if(part == p):
                 number = part + ' ' +address[index + 1]
-                numberIndexes.append(index)
-                numberIndexes.append(index + 1)
+
+                if(len(address) - 1 >= index + 2):
+                    if(len(address[index + 2]) <= 1):
+                        number += ' ' + address[index + 2]
+                        numberIndexes.append(address[index + 2])
+
+                numberIndexes.append(address[index])
+                numberIndexes.append(address[index + 1])
                 return number
             
     for index, part in enumerate(address):
@@ -25,11 +30,24 @@ def findNumber(address):
                 number += part
                 numberIndexes.append(index)
                 
-                
-                print(len(address), index)
                 if(len(address) >= index + 1):
-                    if(len(address[index + 1]) <= 2):
+                    if(len(address[index + 1]) <= 1):
                         number += ' ' + address[index + 1]
                         numberIndexes.append(index + 1)
 
                 return number
+    
+    return 'Sem Numero'
+
+
+def getAddress(address):
+    finalAddress = ''
+    
+    addressCopy = address.copy()
+    if len(numberIndexes) > 0:
+         for number in numberIndexes:
+            addressCopy.remove(number)
+            
+    
+    finalAddress = ' '.join(addressCopy)
+    return finalAddress
