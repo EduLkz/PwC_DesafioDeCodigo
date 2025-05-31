@@ -2,18 +2,19 @@ numberPrefix = ["No", "no", "Nº", "nº", "n", "N"]                       #Possi
 numberArray = []
 
 def OrganizeAddress(address):
-    address_splited = address.split(' ')                                #Separa o endereço de entrada em um Array
+    address_splited = address.replace(',', '').split(' ')                              #Separa o endereço de entrada em um Array
 
-    number = findNumber(address_splited).replace(',', '')               #Encontra o numero e remove virgulas caso tenha
-    street = getAddress(address_splited).replace(',', '')               #Pega o endereço e remove virgulas caso tenha
-    final_address = '{\"' + street + '\", \"' + number + '\"}'          #Formatação da saida
+    num = findNumber(address_splited).replace(',', '')               #Encontra o numero e remove virgulas caso tenha
+    rua = getAddress(address_splited).replace(',', '')               #Pega o endereço e remove virgulas caso tenha
+    solucao = '{\"logradouro\":\"' + rua + '\",\"numero\":\"'+ num + '\"}'          #Formatação da saida
 
-    print(final_address)
+    print(solucao)
 
 
 def findNumber(address):                                                #Encontra o numero do endereço
     for index, part in enumerate(address):
         for p in numberPrefix:                                          #Verifica a existencia de um Prefixo
+
             if(part == p):                                              #Caso encontre um prefixo, pega o numero seguido
                 number = part + ' ' +address[index + 1]
 
